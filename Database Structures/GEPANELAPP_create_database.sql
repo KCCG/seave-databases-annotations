@@ -1,0 +1,32 @@
+CREATE DATABASE `GEPANELAPP_NEW`;
+
+USE `GEPANELAPP_NEW`;
+
+#------------------------------
+
+CREATE TABLE panels (
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(255) NOT NULL UNIQUE,
+	ge_panelid VARCHAR(255) NOT NULL UNIQUE
+);
+
+#------------------------------
+
+CREATE TABLE genes (
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	symbol VARCHAR(30) NOT NULL UNIQUE
+);
+
+#------------------------------
+
+CREATE TABLE genes_in_panels (
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	panel_id INT UNSIGNED NOT NULL,
+	FOREIGN KEY (panel_id) REFERENCES panels(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	gene_id INT UNSIGNED NOT NULL,
+	FOREIGN KEY (gene_id) REFERENCES genes(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	confidence_level VARCHAR(300) NOT NULL
+);
+
+CREATE INDEX panel_id ON genes_in_panels (panel_id);
+CREATE INDEX gene_id ON genes_in_panels (gene_id);
